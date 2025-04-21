@@ -6,8 +6,18 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :users do 
-    post "sign_up" => "users/sign_up"
+    collection do 
+      post "sign_up" => "users/sign_up"
+    end 
+
+    resources :payments , only: [:create]
+    end 
   end 
+
+  #routes  #users/:user_id/payment #create
+
+
+
   # Defines the root path route ("/")
   # root "posts#index"
 end
