@@ -24,6 +24,6 @@ class CreateGojecUsersTable < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :users, :email, uniq: true
+    add_index :users, :email, unique: true
   end
 end
