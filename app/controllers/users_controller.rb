@@ -1,8 +1,24 @@
 class UsersController < ApplicationController
     skip_before_action :authenticate, only: [:sign_up]
     def login
+        email = params[:email]
+        passoword =  params[:passoword]
+        user = User.where(email: email)
 
-        
+
+        if user.blank?
+            return render json: {"message": 'user does not exists'}, status: 401
+        end 
+
+
+        if Bcrypt(passoword) != user.encrypted_password
+            return render json: {"message": 'incorrect password'}, status: 401
+        end 
+
+        create_session(user)
+
+
+        return success_reponse 
     end 
 
     def sign_up
@@ -12,8 +28,10 @@ class UsersController < ApplicationController
             return render jsnon: {"message": "something went wrong" }
         end 
 
-        create_session
+        create_session(user)
     end 
+
+    
 
     private 
 
